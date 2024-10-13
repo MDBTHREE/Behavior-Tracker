@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Behavior Tracking App</title>
+</head>
+<body>
+    <h1>Track Behavior</h1>
+    
+    <form id="behaviorForm">
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required><br><br>
+        
+        <label for="behavior">Behavior:</label>
+        <input type="text" id="behavior" name="behavior" required><br><br>
+        
+        <label for="details">Details:</label>
+        <textarea id="details" name="details"></textarea><br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <p id="response"></p>
+
+    <script>
+        document.getElementById('behaviorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            var formData = {
+                date: document.getElementById('date').value,
+                behavior: document.getElementById('behavior').value,
+                details: document.getElementById('details').value
+            };
+
+            fetch('https://script.google.com/macros/s/AKfycbzDPxyglzJTJ1yHjiJZS-7jkeBjfkVRl3Nb_44u5UeBeC1po8lQGfaIUqsfrbm6VFbcTg/exec', {  // Replace with your web app URL
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => response.json())
+              .then(data => {
+                  document.getElementById('response').innerText = 'Data saved successfully!';
+              }).catch(error => {
+                  document.getElementById('response').innerText = 'Error saving data: ' + error;
+              });
+        });
+    </script>
+</body>
+</html>
